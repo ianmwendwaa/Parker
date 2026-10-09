@@ -1,0 +1,6 @@
+# Kobweb ignores
+.kobweb/*
+!.kobweb/conf.yaml
+
+.scripts/*
+!.scripts/config.json

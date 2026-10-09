@@ -1,0 +1,14 @@
+site:
+  title: "Parker"
+
+server:
+  files:
+    dev:
+      contentRoot: "build/processedResources/js/main/public"
+      script: "build/kotlin-webpack/js/developmentExecutable/parker.js"
+      api: "build/libs/parker.jar"
+    prod:
+      script: "build/kotlin-webpack/js/productionExecutable/parker.js"
+      siteRoot: ".kobweb/site"
+
+  port: 8080
