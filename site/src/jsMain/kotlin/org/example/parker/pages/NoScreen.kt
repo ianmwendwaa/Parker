@@ -6,10 +6,7 @@ import androidx.compose.web.events.SyntheticMouseEvent
 import com.varabyte.kobweb.compose.css.BorderCollapse
 import com.varabyte.kobweb.compose.css.FontWeight
 import com.varabyte.kobweb.compose.css.Overflow
-import com.varabyte.kobweb.compose.css.TextAlign
 import com.varabyte.kobweb.compose.css.borderCollapse
-import com.varabyte.kobweb.compose.css.color
-import com.varabyte.kobweb.compose.css.width
 import com.varabyte.kobweb.compose.foundation.layout.Arrangement
 import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
@@ -19,16 +16,14 @@ import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.compose.ui.toAttrs
 import com.varabyte.kobweb.silk.components.text.SpanText
-import com.varabyte.kobweb.silk.style.CssStyle
 import com.varabyte.kobweb.silk.style.toModifier
 import kotlinx.coroutines.launch
-import org.example.parker.backend.sendDateEmail
+import org.example.parker.EmailSender
 import org.example.parker.components.CoffeePalette
 import org.example.parker.components.NoButtonStyling
 import org.example.parker.components.YesButtonStyling
 import org.jetbrains.compose.web.css.Color
 import org.jetbrains.compose.web.css.color
-import org.jetbrains.compose.web.css.dpi
 import org.jetbrains.compose.web.css.fontSize
 import org.jetbrains.compose.web.css.fontWeight
 import org.jetbrains.compose.web.css.minWidth
@@ -37,7 +32,6 @@ import org.jetbrains.compose.web.css.percent
 import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.css.textAlign
 import org.jetbrains.compose.web.css.width
-import org.jetbrains.compose.web.dom.Button
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.Table
 import org.jetbrains.compose.web.dom.Tbody
@@ -50,7 +44,8 @@ import org.jetbrains.compose.web.dom.Tr
 
 @Composable
 fun NoScreen(
-    onBackClicked: (SyntheticMouseEvent) -> Unit
+    onBackClicked: (SyntheticMouseEvent) -> Unit,
+    onConfirmRejectionClicked: (SyntheticMouseEvent) -> Unit
 ) {
     val coroutineScope = rememberCoroutineScope()
     val attendanceList = listOf(
@@ -85,7 +80,6 @@ fun NoScreen(
 
                 // Right effective date string
                 Row(verticalAlignment = Alignment.CenterVertically) {
-
                     SpanText(
                         text = "Guess I'm going out with the boys instead",
                         modifier = Modifier.fontSize(16.px).color(Color.black).margin(left = 6.px)
@@ -164,11 +158,7 @@ fun NoScreen(
                 }
 
                 com.varabyte.kobweb.silk.components.forms.Button(
-                    onClick = {
-                        coroutineScope.launch {
-                            sendDateEmail("Nope")
-                        }
-                    },
+                    onClick = onConfirmRejectionClicked,
                     modifier = NoButtonStyling.toModifier()
                         .margin(right = 25.px, top = 50.px)
                 ) {

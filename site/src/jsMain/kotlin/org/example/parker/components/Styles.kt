@@ -1,27 +1,11 @@
 package org.example.parker.components
 
-import androidx.compose.runtime.Composable
 import com.varabyte.kobweb.compose.css.Cursor
-import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.ui.Modifier
-import com.varabyte.kobweb.compose.ui.modifiers.backgroundColor
-import com.varabyte.kobweb.compose.ui.modifiers.border
-import com.varabyte.kobweb.compose.ui.modifiers.borderRadius
-import com.varabyte.kobweb.compose.ui.modifiers.boxShadow
-import com.varabyte.kobweb.compose.ui.modifiers.color
-import com.varabyte.kobweb.compose.ui.modifiers.cursor
-import com.varabyte.kobweb.compose.ui.modifiers.fontSize
-import com.varabyte.kobweb.compose.ui.modifiers.height
-import com.varabyte.kobweb.compose.ui.modifiers.margin
-import com.varabyte.kobweb.compose.ui.modifiers.minWidth
-import com.varabyte.kobweb.compose.ui.modifiers.padding
-import com.varabyte.kobweb.compose.ui.modifiers.width
+import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.silk.style.CssStyle
 import com.varabyte.kobweb.silk.style.selectors.focus
 import com.varabyte.kobweb.silk.style.selectors.hover
-import com.varabyte.kobweb.silk.style.toModifier
-import com.varabyte.kobweb.silk.theme.colors.ColorPalette
-import com.varabyte.kobweb.silk.theme.colors.ColorPalettes
 import org.jetbrains.compose.web.css.Color
 import org.jetbrains.compose.web.css.LineStyle
 import org.jetbrains.compose.web.css.px
@@ -34,6 +18,7 @@ object CoffeePalette {
     val PrimaryBtn = Color("#C49A6C")   // Golden Caramel Accent
     val SecondaryBtn = Color("#8B5A2B") // Deep Cinnamon Wood
     val BorderColor = Color("#D2B48C")  // Warm Sand / Light Tan
+    val NoHoverBtn = Color("#ff0051")
 }
 
 val CardContainerStyling = CssStyle {
@@ -55,7 +40,7 @@ val YesButtonStyling = CssStyle {
             .backgroundColor(CoffeePalette.PrimaryBtn)
     }
     hover {
-        Modifier.backgroundColor(Color.lightgreen)
+        Modifier.backgroundColor(CoffeePalette.TextSub)
     }
 }
 
@@ -64,16 +49,15 @@ val NoButtonStyling = CssStyle {
     var height = 40
     base {
         Modifier.padding(10.px).height(height.px).width(width.px)
-            .backgroundColor(Color.transparent).border(2.px, org.jetbrains.compose.web.css.LineStyle.Solid, CoffeePalette.SecondaryBtn)
+            .backgroundColor(Color.transparent).border(2.px, LineStyle.Solid, CoffeePalette.SecondaryBtn)
 
     }
     hover {
         var newHeight = height - 2
         var newWith = width - 2
-        Modifier.backgroundColor(Color("#FF7F7F")).height(newHeight.px).width(newWith.px)
+        Modifier.backgroundColor(CoffeePalette.NoHoverBtn).height(newHeight.px).width(newWith.px)
     }
 }
-val textColor = Color.black
 
 val DateTimeInputStyling = CssStyle{
     base {
@@ -88,6 +72,6 @@ val DateTimeInputStyling = CssStyle{
     }
     focus {
         Modifier
-            .boxShadow(0.px, 0.px, 0.px, 3.px, Color("#D7FFA6"))
+            .boxShadow(0.px, 0.px, 0.px, 3.px, CoffeePalette.BorderColor)
     }
 }

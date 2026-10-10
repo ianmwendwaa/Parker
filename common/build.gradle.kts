@@ -1,22 +1,32 @@
+import com.varabyte.kobweb.gradle.library.util.configAsKobwebLibrary
+
 plugins {
-    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.kobweb.library)
+    alias(libs.plugins.kobwebx.markdown)
+    alias(libs.plugins.kotlinx.serialization)
 }
 
 group = "org.example.parker"
-version = "unspecified"
+version = "1.0-SNAPSHOT"
 
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    testImplementation(kotlin("test"))
-}
 
 kotlin {
-    jvmToolchain(26)
-}
+    configAsKobwebLibrary(includeServer = true)
 
-tasks.test {
-    useJUnitPlatform()
+    sourceSets {
+        jsMain.dependencies {
+            implementation(libs.compose.html.core)
+            implementation(libs.kobweb.core)
+            implementation(libs.compose.runtime)
+            implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
+
+        }
+        jvmMain.dependencies {
+            implementation(libs.kobweb.api)
+            implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
+
+        }
+    }
 }

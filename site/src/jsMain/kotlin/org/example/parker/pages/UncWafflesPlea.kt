@@ -15,7 +15,9 @@ import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.graphics.Colors
+import com.varabyte.kobweb.compose.ui.modifiers.border
 import com.varabyte.kobweb.compose.ui.modifiers.borderRadius
+import com.varabyte.kobweb.compose.ui.modifiers.boxShadow
 import com.varabyte.kobweb.compose.ui.modifiers.color
 import com.varabyte.kobweb.compose.ui.modifiers.fillMaxSize
 import com.varabyte.kobweb.compose.ui.modifiers.fontSize
@@ -38,7 +40,6 @@ import org.jetbrains.compose.web.css.LineStyle
 import org.jetbrains.compose.web.css.backgroundColor
 import org.jetbrains.compose.web.css.border
 import org.jetbrains.compose.web.css.borderRadius
-import org.jetbrains.compose.web.css.dpi
 import org.jetbrains.compose.web.css.fontSize
 import org.jetbrains.compose.web.css.height
 import org.jetbrains.compose.web.css.margin
@@ -50,33 +51,34 @@ import org.jetbrains.compose.web.dom.Option
 import org.jetbrains.compose.web.dom.Select
 
 @Composable
-fun SuccessScreen(
+fun UncWafflesPlea(
     selectedDateTime: String,
     onWafflesShouldComeChanged: (String) -> Unit,
     onDoneButtonClicked: (SyntheticMouseEvent) -> Unit
 ){
-    var shouldWafflesComes by remember { mutableStateOf("No") }
+    var shouldWafflesComes by remember { mutableStateOf("") }
     Box(modifier = CardContainerStyling.toModifier().height(650.px)) {
         Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(8.px),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            SpanText(text = "Yay! See you on: $selectedDateTime", modifier = Modifier
+            SpanText(text = "Yay! See you on $selectedDateTime", modifier = Modifier
                 .color(CoffeePalette.TextMain)
                 .fontSize(28.px)
                 .margin(top = 15.px)
                 .textAlign(TextAlign.Center))
             Image(
-                src = "/missing_u.jpg",
+                src = "/unc_waffles_broken.jpg",
                 description = "Missing Hipster",
                 modifier = Modifier.width(200.px).height(200.px)
                     .borderRadius(7.px)
                     .objectFit(ObjectFit.Cover)
+                    .border(width = 1.px, style = LineStyle.Solid, color = CoffeePalette.BorderColor)
             )
             SpanText(text = "One more thing: Uncle Waffles wants to come along\n. He says you two have 'issues' to sort " +
                     "out. Do you want him to come along?",
                 modifier = Modifier
                 .fontSize(20.px).textWrap(TextWrap.Wrap)
-                .padding(24.px)
+                .padding(15.px)
                 .margin(left = 20.px, right = 20.px).color(CoffeePalette.TextSub))
 
             Select(attrs = {
@@ -103,7 +105,7 @@ fun SuccessScreen(
                 modifier = YesButtonStyling.toModifier(),
                 onClick = onDoneButtonClicked
             ){
-                SpanText(text = "Done", modifier = Modifier.fontSize(13.px).color(Color.white))
+                SpanText(text = "Done", modifier = Modifier.color(Color.white))
             }
         }
     }

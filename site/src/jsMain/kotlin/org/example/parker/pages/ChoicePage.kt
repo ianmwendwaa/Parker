@@ -19,6 +19,7 @@ import com.varabyte.kobweb.silk.components.graphics.Image
 import com.varabyte.kobweb.silk.components.text.SpanText
 import com.varabyte.kobweb.silk.style.toModifier
 import com.varabyte.kobweb.silk.theme.colors.ColorPalette
+import org.example.parker.DateParser
 import org.example.parker.components.*
 import org.jetbrains.compose.web.attributes.InputType
 import org.jetbrains.compose.web.css.Color
@@ -28,7 +29,6 @@ import org.jetbrains.compose.web.css.px
 
 @Composable
 fun ChoicePage(
-    onYesClicked: (SyntheticMouseEvent) -> Unit,
     onNoClicked: (SyntheticMouseEvent) -> Unit,
     onDateTimeSelectionUpdated: (String) -> Unit,
 ){
@@ -36,7 +36,7 @@ fun ChoicePage(
     var dateTimeSelected by remember { mutableStateOf("") }
     Box(modifier = CardContainerStyling.toModifier().height(600.px), contentAlignment = Alignment.Center) {
         Column(
-            modifier = Modifier.fillMaxSize().padding(32.px),
+            modifier = Modifier.fillMaxSize().padding(16.px),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
@@ -53,11 +53,11 @@ fun ChoicePage(
 
             // Subtext
             SpanText(
-                text = "Tired of picturing a date, might as well photograph it.\n Picture-perfect this time.", modifier = Modifier
+                text = "Tired of picturing a date, might as well photograph it.\n Picture-perfect this time.\n Want to go out on a photoshoot w me?", modifier = Modifier
                     .fontSize(20.px)
                     .fontWeight(FontWeight.SemiBold)
                     .color(CoffeePalette.TextSub)
-                    .margin(top = 10.px, bottom = 16.px)
+                    .margin(top = 10.px, bottom = 14.px)
                     .textAlign(TextAlign.Center)
                     .padding(16.px)
             )
@@ -98,7 +98,7 @@ fun ChoicePage(
                             toggleDateTimeVisibility = true
                         } else {
                             if (dateTimeSelected.isNotEmpty()) {
-                                onDateTimeSelectionUpdated(dateTimeSelected)
+                                onDateTimeSelectionUpdated(DateParser.cleanDateTime(dateTimeSelected))
                             }
                         }
                     },

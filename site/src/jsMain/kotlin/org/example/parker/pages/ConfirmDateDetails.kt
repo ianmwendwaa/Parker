@@ -1,7 +1,6 @@
 package org.example.parker.pages
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.web.events.SyntheticMouseEvent
 import com.varabyte.kobweb.compose.css.*
@@ -16,17 +15,13 @@ import com.varabyte.kobweb.compose.ui.toAttrs
 import com.varabyte.kobweb.silk.components.text.SpanText
 import com.varabyte.kobweb.silk.style.CssStyle
 import com.varabyte.kobweb.silk.style.toModifier
-import kotlinx.browser.window
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
-import org.example.parker.backend.sendDateEmail
+import org.example.parker.EmailSender
 import org.example.parker.components.CoffeePalette
 import org.example.parker.components.NoButtonStyling
 import org.example.parker.components.YesButtonStyling
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.*
-import org.w3c.fetch.RequestInit
-import kotlin.js.json
 
 data class AttendeeDetails(val number: String, val name: String, val count: String, val comment: String)
 
@@ -40,13 +35,17 @@ val TableHeaderStyling = CssStyle {
 fun ConfirmDateDetails(
     dateTimeOrdered: String,
     onBackClicked: (SyntheticMouseEvent) -> Unit,
+    onConfirmDateClicked: (SyntheticMouseEvent) -> Unit,
     uncWafflesFate: String
 ) {
     val coroutineScope = rememberCoroutineScope()
+    println(uncWafflesFate)
+    val uncWafflesCount = if (uncWafflesFate == "No") "_" else "1"
+    val uncWafflesComment = if (uncWafflesFate == "No") "Just me + u in the picture." else "Three's Company"
     val attendanceList = listOf(
         AttendeeDetails("1", "Thiccy Freddy", "1", "Yes please!"),
         AttendeeDetails("2", "Thiccy Mwendwa", "1", "Poly C; decent."),
-        AttendeeDetails("3", "Uncle Waffles", "_", "me + u"),
+        AttendeeDetails("3", "Uncle Waffles", uncWafflesCount, uncWafflesComment),
         AttendeeDetails("4", "Rob the Builder", "_", "In prison")
     )
     Box(
@@ -160,11 +159,7 @@ fun ConfirmDateDetails(
                 }
 
                 com.varabyte.kobweb.silk.components.forms.Button(
-                    onClick = {
-                        coroutineScope.launch {
-                            sendDateEmail(dateTimeOrdered)
-                        }
-                    },
+                    onClick = onConfirmDateClicked,
                     modifier = YesButtonStyling.toModifier()
                         .margin(right = 25.px, top = 50.px)
                 ) {

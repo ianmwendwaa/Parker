@@ -30,7 +30,7 @@ kotlin {
             implementation(libs.kobweb.silk)
             implementation(libs.silk.icons.fa)
             implementation(libs.kobwebx.markdown)
-//            implementation(project(":common"))
+            implementation(project(":common"))
             implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
         }
     }

@@ -19,7 +19,7 @@ msg['from'] = "williamsian845@gmail.com"
 msg['subject'] = "Thiccsters' Date Confirmation"
 def send_email(date):
     password = os.getenv("SMTP_AUTH_PASS")
-    msg.set_content(f"U + Freddy = Outside! When?: {date}!")
+    msg.set_content(f"U + Freddy = Outside! When?:\n\n {date}!")
     try:
         print("Initiating Mwendwa email notification...")
         with smtplib.SMTP("smtp.gmail.com", 587) as server:
@@ -47,14 +47,15 @@ def get_selected_date_time():
         return jsonify({"status": "Date time was not provided. Check data src."})
 
     print(f"Selected date time: {selected_date_time}")
-    response = {}
     # If she rejects my proposal, send 'Another day' as the date
     if selected_date_time == "Nope":
         response = {
             "status": "Guess I'm summoning my boys",
-            "data": "Doesn't change the fact that I lowkey miss you."
+            "data": "Doesn't change the fact that I lowkey miss you.",
+            "raw_output": data
         }
         send_email("Another day. Summon Uncle Waffles and Rob.")
+        return jsonify(response), 200
 
     send_email(selected_date_time)
     response = {
@@ -67,6 +68,4 @@ def get_selected_date_time():
 def parse_response():
     print(get_selected_date_time())
 if __name__ == '__main__':
-    today = datetime.now()
-    parsedDate = today.strftime("%d/%m/%Y, %H:%M:%S")
-    send_email(parsedDate)
+    app.run()
