@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.web.events.SyntheticMouseEvent
+import com.varabyte.kobweb.compose.css.FontWeight
 import com.varabyte.kobweb.compose.css.ObjectFit
 import com.varabyte.kobweb.compose.css.TextAlign
 import com.varabyte.kobweb.compose.css.TextWrap
@@ -21,6 +22,7 @@ import com.varabyte.kobweb.compose.ui.modifiers.boxShadow
 import com.varabyte.kobweb.compose.ui.modifiers.color
 import com.varabyte.kobweb.compose.ui.modifiers.fillMaxSize
 import com.varabyte.kobweb.compose.ui.modifiers.fontSize
+import com.varabyte.kobweb.compose.ui.modifiers.fontWeight
 import com.varabyte.kobweb.compose.ui.modifiers.height
 import com.varabyte.kobweb.compose.ui.modifiers.margin
 import com.varabyte.kobweb.compose.ui.modifiers.objectFit
@@ -61,10 +63,10 @@ fun UncWafflesPlea(
         Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(8.px),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            SpanText(text = "Yay! See you on $selectedDateTime", modifier = Modifier
+            SpanText(text = "Hipster's paparazzi have been summoned. See you (or see them) on $selectedDateTime!", modifier = Modifier
                 .color(CoffeePalette.TextMain)
-                .fontSize(28.px)
-                .margin(top = 15.px)
+                .fontSize(24.px)
+                .margin(top = 24.px)
                 .textAlign(TextAlign.Center))
             Image(
                 src = "/unc_waffles_broken.jpg",
@@ -74,12 +76,8 @@ fun UncWafflesPlea(
                     .objectFit(ObjectFit.Cover)
                     .border(width = 1.px, style = LineStyle.Solid, color = CoffeePalette.BorderColor)
             )
-            SpanText(text = "One more thing: Uncle Waffles wants to come along\n. He says you two have 'issues' to sort " +
-                    "out. Do you want him to come along?",
-                modifier = Modifier
-                .fontSize(20.px).textWrap(TextWrap.Wrap)
-                .padding(15.px)
-                .margin(left = 20.px, right = 20.px).color(CoffeePalette.TextSub))
+            SpanText(text = "One more thing: Uncle Waffles wants to come along. He says you two have 'issues' to sort out. Do you want him to come along?",
+                modifier = Modifier.color(CoffeePalette.TextSub).fontSize(18.px).padding(12.px))
 
             Select(attrs = {
                 onChange { event ->

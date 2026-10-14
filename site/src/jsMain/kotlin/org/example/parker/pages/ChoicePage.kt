@@ -2,11 +2,9 @@ package org.example.parker.pages
 
 import androidx.compose.runtime.*
 import androidx.compose.web.events.SyntheticMouseEvent
-import com.varabyte.kobweb.compose.css.BoxShadow
 import com.varabyte.kobweb.compose.css.FontWeight
 import com.varabyte.kobweb.compose.css.ObjectFit
 import com.varabyte.kobweb.compose.css.TextAlign
-import com.varabyte.kobweb.compose.dom.observers.invoke
 import com.varabyte.kobweb.compose.foundation.layout.Arrangement
 import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
@@ -18,14 +16,11 @@ import com.varabyte.kobweb.silk.components.forms.Input
 import com.varabyte.kobweb.silk.components.graphics.Image
 import com.varabyte.kobweb.silk.components.text.SpanText
 import com.varabyte.kobweb.silk.style.toModifier
-import com.varabyte.kobweb.silk.theme.colors.ColorPalette
 import org.example.parker.DateParser
 import org.example.parker.components.*
 import org.jetbrains.compose.web.attributes.InputType
-import org.jetbrains.compose.web.css.Color
 import org.jetbrains.compose.web.css.LineStyle
 import org.jetbrains.compose.web.css.px
-
 
 @Composable
 fun ChoicePage(
@@ -34,7 +29,7 @@ fun ChoicePage(
 ){
     var toggleDateTimeVisibility by remember { mutableStateOf(false) }
     var dateTimeSelected by remember { mutableStateOf("") }
-    Box(modifier = CardContainerStyling.toModifier().height(600.px), contentAlignment = Alignment.Center) {
+    Box(modifier = CardContainerStyling.toModifier().fillMaxHeight(), contentAlignment = Alignment.Center) {
         Column(
             modifier = Modifier.fillMaxSize().padding(16.px),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -53,27 +48,34 @@ fun ChoicePage(
 
             // Subtext
             SpanText(
-                text = "Tired of picturing a date, might as well photograph it.\n Picture-perfect this time.\n Want to go out on a photoshoot w me?", modifier = Modifier
+                text = "Tired of picturing a date, might as well photograph it into a frame.\n Picture-perfect this time.\n", modifier = Modifier
                     .fontSize(20.px)
                     .fontWeight(FontWeight.SemiBold)
                     .color(CoffeePalette.TextSub)
-                    .margin(top = 10.px, bottom = 14.px)
+                    .margin(top = 10.px)
                     .textAlign(TextAlign.Center)
-                    .padding(16.px)
+                    .padding(10.px)
             )
-
             // Unsuspecting brother
-            Image(
-                src = "/mwendwa_luvs_u.jpg",
-                description = "Unsuspecting brother",
-                modifier = Modifier.width(200.px).height(200.px)
-                    .borderRadius(7.px).objectFit(ObjectFit.Cover).margin(bottom = 10.px)
-                    .border(width = 1.px, style = LineStyle.Solid, color = CoffeePalette.BorderColor),
+                Image(
+                    src = "/mwendwa_luvs_u.jpg",
+                    description = "Mwendwa Likes U",
+                    modifier = Modifier.width(200.px).height(200.px)
+                        .borderRadius(7.px).objectFit(ObjectFit.Cover).margin(bottom = 5.px)
+                        .border(width = 1.px, style = LineStyle.Solid, color = CoffeePalette.BorderColor),
+                )
+            SpanText(
+                text = "Would you want to go on the long promised photoshoot w me?", modifier = Modifier
+                    .fontSize(19.px)
+                    .fontWeight(FontWeight.SemiBold)
+                    .color(CoffeePalette.TextSub)
+                    .margin(top = 10.px, bottom = 5.px)
+                    .textAlign(TextAlign.Center)
             )
 
             // Date time picker. Initially, set it to hidden
             if (toggleDateTimeVisibility) {
-                SpanText(text = "I'm honestly okay with Friday 9th, but if you aren't, choose your preferred date.",
+                SpanText(text = "You + me when?",
                     modifier = Modifier.margin(bottom = 5.px)
                         .fontSize(18.px)
                         .color(CoffeePalette.TextSub)

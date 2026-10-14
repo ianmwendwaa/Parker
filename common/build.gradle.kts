@@ -21,12 +21,12 @@ kotlin {
             implementation(libs.kobweb.core)
             implementation(libs.compose.runtime)
             implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
-
+            implementation("io.github.cdimascio:dotenv-kotlin:6.5.1")
         }
         jvmMain.dependencies {
             implementation(libs.kobweb.api)
             implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
-
+            implementation("io.github.cdimascio:dotenv-kotlin:6.5.1")
         }
     }
 }

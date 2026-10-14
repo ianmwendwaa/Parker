@@ -24,9 +24,9 @@ object CoffeePalette {
 val CardContainerStyling = CssStyle {
     base {
         Modifier
-            .width(600.px)
+            .fillMaxWidth()
             .height(400.px)
-            .minWidth(400.px)
+            .minWidth(350.px)
             .padding(16.px)
             .margin(50.px)
             .backgroundColor(CoffeePalette.CardBg)
@@ -61,9 +61,9 @@ val NoButtonStyling = CssStyle {
 
 val DateTimeInputStyling = CssStyle{
     base {
-        Modifier.width(250.px).height(65.px)
+        Modifier.width(250.px).height(50.px)
             .padding(left = 16.px, right = 10.px)
-            .color(Color.darkgray)
+            .color(Color("#928f8f"))
             .fontSize(15.px)
             .borderRadius(10.px)
             .border(width = 2.px, style = LineStyle.Solid, color = Color.gray)

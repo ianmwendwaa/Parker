@@ -57,7 +57,7 @@ fun NoScreen(
     // Core structural card wrapper box matching your light grey theme
     Box(
         modifier = Modifier
-            .width(750.px) // Plentiful breathing space for layout items
+            .fillMaxWidth()
             .minHeight(420.px)
             .backgroundColor(CoffeePalette.CardBg)
             .borderRadius(12.px)
@@ -65,12 +65,10 @@ fun NoScreen(
         contentAlignment = Alignment.TopCenter
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
-
-            // --- TOP HEADER AREA ---
-            Row(
+            Column(
                 modifier = Modifier.fillMaxWidth().margin(bottom = 40.px),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.Top
+                horizontalAlignment = Alignment.Start,
+                verticalArrangement = Arrangement.spacedBy(3.px)
             ) {
                 // Left Title text
                 SpanText(
@@ -82,7 +80,7 @@ fun NoScreen(
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     SpanText(
                         text = "Guess I'm going out with the boys instead",
-                        modifier = Modifier.fontSize(16.px).color(Color.black).margin(left = 6.px)
+                        modifier = Modifier.fontSize(16.px).color(Color.black)
                     )
                 }
             }

@@ -15,8 +15,6 @@ import com.varabyte.kobweb.compose.ui.toAttrs
 import com.varabyte.kobweb.silk.components.text.SpanText
 import com.varabyte.kobweb.silk.style.CssStyle
 import com.varabyte.kobweb.silk.style.toModifier
-import kotlinx.coroutines.launch
-import org.example.parker.EmailSender
 import org.example.parker.components.CoffeePalette
 import org.example.parker.components.NoButtonStyling
 import org.example.parker.components.YesButtonStyling
@@ -31,6 +29,7 @@ val TableHeaderStyling = CssStyle {
     }
 }
 
+data class UncWafflesCommentary(val count: String, val comment: String)
 @Composable
 fun ConfirmDateDetails(
     dateTimeOrdered: String,
@@ -38,51 +37,51 @@ fun ConfirmDateDetails(
     onConfirmDateClicked: (SyntheticMouseEvent) -> Unit,
     uncWafflesFate: String
 ) {
-    val coroutineScope = rememberCoroutineScope()
     println(uncWafflesFate)
-    val uncWafflesCount = if (uncWafflesFate == "No") "_" else "1"
-    val uncWafflesComment = if (uncWafflesFate == "No") "Just me + u in the picture." else "Three's Company"
+    val uncs = if (uncWafflesFate == "No")
+        UncWafflesCommentary("_", "Just me + u in the picture.")
+    else UncWafflesCommentary("1", "Three's Company.")
+
     val attendanceList = listOf(
-        AttendeeDetails("1", "Thiccy Freddy", "1", "Yes please!"),
-        AttendeeDetails("2", "Thiccy Mwendwa", "1", "Poly C; decent."),
-        AttendeeDetails("3", "Uncle Waffles", uncWafflesCount, uncWafflesComment),
+        AttendeeDetails("1", "Thiccy Freddy", "1", "(just what I ordered btw)"),
+        AttendeeDetails("2", "Thiccy Mwendwa", "1", "Poly C; decent security detail."),
+        AttendeeDetails("3", "Uncle Waffles", uncs.count, uncs.comment),
         AttendeeDetails("4", "Rob the Builder", "_", "In prison")
     )
     Box(
         modifier = Modifier
-            .width(750.px)
-            .minHeight(420.px)
+            .fillMaxWidth()
+            .minWidth(350.px)
             .backgroundColor(CoffeePalette.CardBg)
             .borderRadius(12.px)
             .padding(32.px),
         contentAlignment = Alignment.TopCenter
     ) {
-        Column(modifier = Modifier.fillMaxSize()) {
+        Column(modifier = Modifier.fillMaxWidth()) {
 
             // --- TOP HEADER AREA ---
-            Row(
+            Column(
                 modifier = Modifier.fillMaxWidth().margin(bottom = 40.px),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.Top
+                verticalArrangement = Arrangement.spacedBy(5.px ),
+                horizontalAlignment = Alignment.Start
             ) {
                 // Left Title text
                 SpanText(
                     text = "Thiccsters' Date Confirmation",
-                    modifier = Modifier.fontSize(20.px).padding(32.px).fontWeight(FontWeight.Bold).color(CoffeePalette.TextMain)
+                    modifier = Modifier.fontSize(20.px).fontWeight(FontWeight.Bold).color(CoffeePalette.TextMain)
                 )
 
                 // Right effective date string
-                Row(verticalAlignment = Alignment.CenterVertically) {
+                Column(verticalArrangement = Arrangement.spacedBy(3.px)) {
                     SpanText(
                         text = "Effective on: ",
-                        modifier = Modifier.fontSize(16.px)
+                        modifier = Modifier.fontSize(17.px)
                             .fontWeight(FontWeight.Bold)
                             .color(CoffeePalette.TextMain)
-
                     )
                     SpanText(
                         text = dateTimeOrdered,
-                        modifier = Modifier.fontSize(16.px).color(CoffeePalette.TextMain).margin(left = 6.px)
+                        modifier = Modifier.fontSize(16.px).color(CoffeePalette.TextMain)
                     )
                 }
             }
@@ -91,7 +90,6 @@ fun ConfirmDateDetails(
             Div(
                 attrs = Modifier
                     .fillMaxWidth()
-                    .padding(32.px)
                     .overflow(Overflow.Auto) // Crucial: Allows side-swiping gestures on small smartphone viewports
                     .toAttrs()
             ) {
@@ -99,7 +97,7 @@ fun ConfirmDateDetails(
                     style {
                         width(100.percent)
                         borderCollapse(BorderCollapse.Collapse)
-                        minWidth(600.px) // Enforces rigid alignment lines so table doesn't cramp up on mobile
+                        minWidth(600.px)
                     }
                 }) {
                     // Header Layout Column Columns
@@ -121,7 +119,7 @@ fun ConfirmDateDetails(
                         }
                     }
 
-                    // Body List Auto-Population Rows
+                    // Body List
                     Tbody {
                         attendanceList.forEach { attendee ->
                             Tr {
@@ -164,54 +162,6 @@ fun ConfirmDateDetails(
                         .margin(right = 25.px, top = 50.px)
                 ) {
                     SpanText("Confirm", modifier = Modifier.color(Color.white))
-                }
-            }
-        }
-    }
-}
-
-
-@Composable
-fun AttendanceSummary(){
-    val attendanceList = listOf(
-        AttendeeDetails("1.", "Thiccy Freddy", "1", "Yes please!"),
-        AttendeeDetails("2.", "Thiccy Mwendwa", "1", "Poly C; decent."),
-        AttendeeDetails("3.", "Uncle Waffles", "_", "me + u")
-    )
-    Box(
-        modifier = Modifier.width(500.px).height(300.px)
-            .backgroundColor(Color.white).padding(16.px),
-        contentAlignment = Alignment.TopStart
-    ) {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(24.px)
-        ) {
-            Row(modifier = Modifier.fillMaxWidth()) {
-                Box(modifier = Modifier.weight(1f)) {
-                    SpanText("", modifier = TableHeaderStyling.toModifier())
-                }
-                Box(modifier = Modifier.weight(2f)) {
-                    SpanText("Attendee", modifier = TableHeaderStyling.toModifier())
-                }
-                Box(modifier = Modifier.weight(2f)) {
-                    SpanText("Count", modifier = TableHeaderStyling.toModifier().textAlign(TextAlign.Left))
-                }
-                Box(modifier = Modifier.weight(2f)) {
-                    SpanText("Comment", modifier = TableHeaderStyling.toModifier())
-                }
-            }
-
-            attendanceList.forEach { attendee ->
-                Row(modifier = Modifier.fillMaxWidth()) {
-                    Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.CenterStart){
-                        SpanText(attendee.number, modifier = Modifier.color(Color.gray))}
-                    Box(modifier = Modifier.weight(2f).overflow(Overflow.Hidden)) {
-                        SpanText(attendee.name, modifier = Modifier.color(Color.gray))}
-                    Box(modifier = Modifier.weight(2f), contentAlignment = Alignment.CenterStart){
-                        SpanText(attendee.count.trim(), modifier = Modifier.color(Color.gray).textAlign(TextAlign.Left))}
-                    Box(modifier = Modifier.weight(2f).overflow(Overflow.Hidden)){
-                        SpanText(attendee.comment, modifier = Modifier.color(Color.gray))}
                 }
             }
         }

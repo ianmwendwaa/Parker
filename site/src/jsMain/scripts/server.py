@@ -7,8 +7,8 @@ from datetime import datetime
 import os
 
 app = Flask(__name__)
-CORS(app, resources={r"/api/*": {"origins": "http://localhost:8080", 
-                                 "allow_headers": ["Content-Type"],
+CORS(app, resources={r"/api/*": {"origins": " https://e1e0-102-68-77-94.ngrok-free.app", 
+                                 "allow_headers": ["Content-Type", "Access-Control-Allow-Origin", "ngrok-skip-browser-warning"],
                                  "methods": ['POST', 'OPTIONS']}})
 
 load_dotenv()
@@ -17,9 +17,9 @@ msg = EmailMessage()
 msg['to'] = "ianmwendwa91e@gmail.com"
 msg['from'] = "williamsian845@gmail.com"
 msg['subject'] = "Thiccsters' Date Confirmation"
-def send_email(date):
+def send_email(date, fate):
     password = os.getenv("SMTP_AUTH_PASS")
-    msg.set_content(f"U + Freddy = Outside! When?:\n\n {date}!")
+    msg.set_content(f"U + Freddy = Outside! When?:\n\n {date}! Does she want Uncle Waffles to come?: {fate}")
     try:
         print("Initiating Mwendwa email notification...")
         with smtplib.SMTP("smtp.gmail.com", 587) as server:
@@ -27,11 +27,9 @@ def send_email(date):
             server.login("williamsian845@gmail.com", password)
             server.send_message(msg)
         print("Email sent successfully!")
-
     except Exception as e:    
         print(f"Error sending email. Reason: {e}")
     
-
 @app.route("/api/parker-data/", methods=['POST', 'OPTIONS'])
 def get_selected_date_time():
     if request.method == 'OPTIONS':
@@ -42,9 +40,10 @@ def get_selected_date_time():
         return jsonify({"status": "Did not receive any JSON payload. Check data src."}), 400
 
     selected_date_time = data.get('selectedDateTime')
+    waffles_fate = data.get('wfate')
 
-    if not selected_date_time:
-        return jsonify({"status": "Date time was not provided. Check data src."})
+    if not selected_date_time or not waffles_fate:
+        return jsonify({"status": "Date time or uncs fate was not provided. Check data src."})
 
     print(f"Selected date time: {selected_date_time}")
     # If she rejects my proposal, send 'Another day' as the date
@@ -54,10 +53,10 @@ def get_selected_date_time():
             "data": "Doesn't change the fact that I lowkey miss you.",
             "raw_output": data
         }
-        send_email("Another day. Summon Uncle Waffles and Rob.")
+        send_email("Another day. Summon Uncle Waffles and Rob.", "No")
         return jsonify(response), 200
 
-    send_email(selected_date_time)
+    send_email(selected_date_time, waffles_fate)
     response = {
         "status": "Paparazzi! Prepare your lenses",
         "data": f"See you on: {selected_date_time}",
